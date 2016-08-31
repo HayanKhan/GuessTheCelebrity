@@ -10,12 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -73,68 +67,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         createQuestion();
-    }
-
-    /**
-     * Async task that returns the source code of the web page
-     */
-    public class GetCelebrities extends AsyncTask<String, Void, String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-            String sourceCode = "";
-            URL url;
-            HttpURLConnection connection;
-
-            try {
-                url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                InputStream in = connection.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                int data = reader.read();
-
-                while (data != -1) {
-                    char current = (char) data;
-                    sourceCode += current;
-                    data = reader.read();
-                }
-                return sourceCode;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-
-
-    /**
-     * Async task that returns the celebrity image from website as bitmap.
-     */
-    public class GetCelebritiesImage extends AsyncTask<String, Void, Bitmap>{
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            URL url;
-            HttpURLConnection connection;
-
-            try {
-                url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream in = connection.getInputStream();
-                Bitmap celebMap = BitmapFactory.decodeStream(in);
-                return celebMap;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
 
     /**
